@@ -1,0 +1,38 @@
+{
+  "name": "simple-node-markdown-blog",
+  "version": "1.0.0",
+  "description": "Essentially a static site generator in the context of a simple blog with automated searching and categorizing features.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kzaremski/simple-node-markdown-blog.git"
+  },
+  "keywords": [
+    "Blog",
+    "Nunjucks",
+    "Markdown",
+    "Static"
+  ],
+  "author": "Konstantin Zaremski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kzaremski/simple-node-markdown-blog/issues"
+  },
+  "homepage": "https://github.com/kzaremski/simple-node-markdown-blog#readme",
+  "dependencies": {
+    "chokidar": "^3.5.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.4.1",
+    "markdown-yaml-metadata-parser": "^3.0.0",
+    "marked": "^2.0.1",
+    "marked-images": "^2.3.0",
+    "nunjucks": "^3.2.3",
+    "nunjucks-markdown": "^2.0.1",
+    "path": "^0.12.7"
+  }
+}

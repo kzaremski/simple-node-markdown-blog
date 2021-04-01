@@ -1,0 +1,9 @@
+{% set title = post.title %}
+
+{% extends 'page.njk' %}
+
+{% block body %}
+<h1>{{ metadata.title }}</h1>
+<h6 class="text-muted">By {{ metadata.author }} on {{ metadata.date }}.</h6>
+{{ post | safe }}
+{% endblock %}
