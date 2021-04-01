@@ -72,7 +72,7 @@ app.get('/post/:postname', (req, res) => {
   const postname = req.params.postname
   const postIndex = posts.findIndex(post => post.name === postname);
   const selectedPost = (postIndex >= 0) ? posts[postIndex] : null;
-  if (!selectedPost) return res.status(404);
+  if (!selectedPost) return res.status(404).render('404.njk', { BLOG_NAME: process.env.BLOG_NAME });
   const postMD = fs.readFileSync(path.join(__dirname, 'posts', selectedPost.name + '.md'), 'utf-8');
   const post = metadataParser(postMD);
   res.render('post.njk', {
@@ -85,11 +85,11 @@ app.get('/post/:postname', (req, res) => {
 
 // Error Handling
 app.use(function (req, res, next) {
-  res.status(404).render('404.njk');
+  res.status(404).render('404.njk', { BLOG_NAME: process.env.BLOG_NAME });
 })
 
 // Express app listening on the development or production port
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening for HTTP requests on port ${port}`);
-})
+});
