@@ -14,8 +14,6 @@ const metadataParser = require('markdown-yaml-metadata-parser');
 const markedImages = require('marked-images');
 let marked = require('marked');
 
-marked.use(markedImages());
-
 // Load configuration variables from a file
 require('dotenv').config({ path: path.join(__dirname, 'config.env') });
 
@@ -30,6 +28,9 @@ let njenv = nunjucks.configure('views', {
   express: app
 });
 app.set('views', path.join(__dirname, 'views'));
+
+// Configure markdown renderer
+marked.use(markedImages());
 
 // Express security
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -60,6 +61,15 @@ app.get('/', (req, res) => {
 
 app.get('/rss.xml', (req, res) => {
   res.render('rss.xml', {
+    BLOG_NAME: process.env.BLOG_NAME,
+    BLOG_DESC: process.env.BLOG_DESC,
+    host: req.protocol + '://' + req.headers.host,
+    posts: posts
+  });
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  res.render('sitemap.xml', {
     BLOG_NAME: process.env.BLOG_NAME,
     BLOG_DESC: process.env.BLOG_DESC,
     host: req.protocol + '://' + req.headers.host,

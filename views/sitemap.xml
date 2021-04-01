@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for post in posts %}
+    {% if post.title %}
+      <url>
+        <link>{{ host }}/post/{{ post.name }}</link>
+        {% set date = post.date.split('-') %}
+        <lastmod>{{ date[2] }}-{{ date[0] }}-{{ date[1] }}T00:00:00+00</lastmod>
+      </url>
+    {% endif %}
+  {% endfor %}
+</urlset>
