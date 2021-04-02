@@ -1,0 +1,15 @@
+[Unit]
+Description=Simple Node Markdown Blog
+Documentation=https://github.com/kzaremski/simple-node-markdown-blog
+After=network.target
+
+[Service]
+WorkingDirectory=/home/nodeuser/simple-node-markdown-blog
+Environment=PORT=3000
+Type=simple
+User=nodeuser
+ExecStart=/usr/bin/node /home/nodeuser/simple-node-markdown-blog/main.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
