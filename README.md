@@ -33,3 +33,8 @@ Blog name and tagline/description/bio can be defined in the config.env file or a
 Favicon can be replaced, it is located at 'simple-node-markdown-blog/static/img/icon.png'.
 
 Layout is defined in the nunjucks template files, look and feel is determined by bootstrap (simple-node-markdown-blog/static/css/bootstrap.css). Default layouts defines styles using Bootstrap 5 beta classes.
+
+#### systemd
+You can add this app to the systemd registry and run it as a service with networking priveleges. If you don't know what this is, do not do it. Before you do it, modify 'simple-node-markdown-blog.service' according to your server's configuration.
+
+In acccordance with the license, you are doing this at your own risk. I am not responsible for broken systems.
