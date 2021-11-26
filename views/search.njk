@@ -1,0 +1,31 @@
+{% set title = 'Search "' + term +  '"' %}
+
+{% extends 'page.njk' %}
+
+{% block body %}
+<h3>Post Search: "{{ term }}"</h3>
+{% for post in posts %}
+{% if post.title %}
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3 p-4">
+      <img src="{{ post.bannerimg }}" class="img-fluid" alt="{{ post.title }}">
+    </div>
+    <div class="col-md-9">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">
+          {{ post.description }}
+          <a href="/post/{{ post.name }}">Read Post</a>
+        </p>
+        <p class="card-text"><small class="text-muted">{{ post.author }} on {{ post.date }}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% if posts|length == 0 %}
+<p>No posts matched your search phrase.</p>
+{% endif %}
+{% endblock %}

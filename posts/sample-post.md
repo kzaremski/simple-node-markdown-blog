@@ -1,8 +1,9 @@
 ---
 title: A Sample Post
 author: John Smith
+tags: Pictures
 description: A sample post for a sample blog with a sample image.
-date: 04-01-2021
+date: 4/1/2021
 bannerimg: /static/content/04-01-2021/sample.jpg
 ---
 

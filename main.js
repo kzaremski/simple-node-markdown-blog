@@ -38,8 +38,8 @@ app.use(helmet({ contentSecurityPolicy: false }));
 // Static assets and files
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
-// PARSE ALL POSTS & CACHE IN ARRAY
-var posts = [];
+// Read in all posts in directory and cache important info in array
+let posts = [];
 const files = fs.readdirSync(path.join(__dirname, 'posts'));
 files.forEach(file => {
   const extension = file.split('.').pop();
@@ -55,10 +55,13 @@ files.forEach(file => {
 app.get('/', (req, res) => {
   res.render('index.njk', {
     BLOG_NAME: process.env.BLOG_NAME,
+    BLOG_DESC: process.env.BLOG_DESC,
     posts: posts
   });
 });
 
+
+// Generate a complete RSS feed
 app.get('/rss.xml', (req, res) => {
   res.render('rss.xml', {
     BLOG_NAME: process.env.BLOG_NAME,
@@ -68,6 +71,7 @@ app.get('/rss.xml', (req, res) => {
   });
 });
 
+// Generate a sitemap for search engines
 app.get('/sitemap.xml', (req, res) => {
   res.render('sitemap.xml', {
     BLOG_NAME: process.env.BLOG_NAME,
@@ -89,7 +93,33 @@ app.get('/post/:postname', (req, res) => {
     BLOG_NAME: process.env.BLOG_NAME,
     BLOG_DESC: process.env.BLOG_DESC,
     metadata: post.metadata,
-    post: marked(post.content)
+    post: marked(post.content) // Use the marked library to parse the post's markdown format
+  });
+});
+
+// Search route
+app.get('/search', (req, res) => {
+  // Building an object of the search terms used
+  const criteria = {
+    term: req.query.phrase.trim().replace('  ', ' ')
+  };
+
+  // Loop through the list of posts and match their title and contents with the search criteria
+  let results = [];
+  for (i = 0; i < posts.length; i ++) {
+    let post = posts[i];
+    let titlematch = post.title.includes(criteria.term);
+    let descmatch = post.description.includes(criteria.term);
+    // If the search term matches some part of the title or description, include it in the results
+    if (titlematch || descmatch) results.push(post);
+  }
+  
+  // Render output
+  res.render('search.njk', {
+    term: criteria.term,
+    BLOG_DESC: process.env.BLOG_DESC,
+    BLOG_NAME: process.env.BLOG_NAME,
+    posts: results
   });
 });
 

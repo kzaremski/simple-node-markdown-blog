@@ -13,7 +13,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
             <li class="nav-item">
               <a class="nav-link active" href="/">Home</a>
             </li>
@@ -21,6 +21,10 @@
               <a class="nav-link" href="/rss.xml">RSS</a>
             </li>
           </ul>
+          <form class="d-flex" action="/search" method="GET">
+            <input class="form-control me-sm-2" type="text" placeholder="Search posts" name="phrase">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+          </form>
         </div>
       </div>
     </nav>
