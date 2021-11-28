@@ -40,7 +40,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Read in all posts in directory and cache important info in array
 let posts = [];
-let categories = [];
+let categories = {};
 const files = fs.readdirSync(path.join(__dirname, 'posts'));
 files.forEach(file => {
   const extension = file.split('.').pop();
@@ -125,10 +125,10 @@ app.get('/categories', (req, res) => {
 
 // Posts in an individual category
 app.get('/categories/:shortname', (req, res) => {
+  if (!categories.hasOwnProperty(req.params.shortname)) res.redirect('/404')
   // Render output
   res.render('categories.njk', {
-    active: 'categories',
-    term: criteria.term,
+    active: 'dank',
     BLOG_DESC: process.env.BLOG_DESC,
     BLOG_NAME: process.env.BLOG_NAME,
     posts: results

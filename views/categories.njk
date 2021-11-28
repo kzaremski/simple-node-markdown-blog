@@ -1,0 +1,25 @@
+{% set title = 'Categories' %}
+
+{% extends 'page.njk' %}
+
+{% block body %}
+<h3>Categories</h3>
+<div class="container row mx-0 px-0">
+    {% for id, category in categories %}
+    <div class="col-md-4">
+        <a href="/categories/{{ category.id }}" style="text-decoration: none; color: black;">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="mb-0">{{ category.count }} post{% if category.count > 1%}s{% endif %}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% if categories|length == 0 %}
+<p>There are no categories defined for this blog.</p>
+{% endif %}
+{% endblock %}
