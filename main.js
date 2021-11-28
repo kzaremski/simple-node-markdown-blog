@@ -97,6 +97,27 @@ app.get('/post/:postname', (req, res) => {
   });
 });
 
+// Category browse route/view
+app.get('/categories', (req, res) => {
+  res.render('categories.njk', {
+    term: criteria.term,
+    BLOG_DESC: process.env.BLOG_DESC,
+    BLOG_NAME: process.env.BLOG_NAME,
+    posts: results
+  });
+});
+
+// Posts in an individual category
+app.get('/categories/:shortname', (req, res) => {
+  // Render output
+  res.render('categories.njk', {
+    term: criteria.term,
+    BLOG_DESC: process.env.BLOG_DESC,
+    BLOG_NAME: process.env.BLOG_NAME,
+    posts: results
+  });
+});
+
 // Search route
 app.get('/search', (req, res) => {
   // Building an object of the search terms used
