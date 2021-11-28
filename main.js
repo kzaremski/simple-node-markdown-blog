@@ -125,12 +125,18 @@ app.get('/categories', (req, res) => {
 
 // Posts in an individual category
 app.get('/categories/:shortname', (req, res) => {
-  if (!categories.hasOwnProperty(req.params.shortname)) res.redirect('/404')
+  // If the category is not recognized, redirect to error 404
+  if (!categories.hasOwnProperty(req.params.shortname)) res.redirect('/404');
+  let category = categories[req.params.shortname];
+  // Find all posts that match that category
+  let results = [];
+  for (i = 0; i < posts.length; i++) if (posts[i].category == category.name) results.push(posts[i]);
   // Render output
-  res.render('categories.njk', {
-    active: 'dank',
+  res.render('category.njk', {
+    active: 'categories',
     BLOG_DESC: process.env.BLOG_DESC,
     BLOG_NAME: process.env.BLOG_NAME,
+    category: category,
     posts: results
   });
 });
