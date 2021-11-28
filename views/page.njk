@@ -15,7 +15,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home</a>
+              <a class="nav-link {% if active == "home" %}active{% endif %}" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if active == "categories" %}active{% endif %}" href="/categories">Categories</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/rss.xml">RSS</a>

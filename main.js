@@ -40,20 +40,35 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Read in all posts in directory and cache important info in array
 let posts = [];
+let categories = [];
 const files = fs.readdirSync(path.join(__dirname, 'posts'));
 files.forEach(file => {
   const extension = file.split('.').pop();
+  // If the file has the markdown extension, we can assume that it is a post
   if (extension == 'md') {
     let post = { name: file.split('.').shift() };
     const postMD = fs.readFileSync(path.join(__dirname, 'posts', file), 'utf-8');
+    // Get the metadata from the header of the markdown file
     post = Object.assign(post, metadataParser(postMD).metadata);
     posts.push(post);
+    // Compute the internal name of the category
+    if (post.category) {
+      let categoryID = post.category.trim().replace(' ', '-').toLowerCase();
+      // If the category is already accounted for, add one to its count otherwise create a new property for the new category
+      if (categories.hasOwnProperty(categoryID)) categories[categoryID]['count'] = categories[categoryID]['count'] + 1;
+      else categories[categoryID] = {
+        name: post.category.trim(),
+        id: categoryID,
+        count: 1
+      }
+    }
   }
 });
 
 // Home Page
 app.get('/', (req, res) => {
   res.render('index.njk', {
+    active: 'home',
     BLOG_NAME: process.env.BLOG_NAME,
     BLOG_DESC: process.env.BLOG_DESC,
     posts: posts
@@ -93,6 +108,7 @@ app.get('/post/:postname', (req, res) => {
     BLOG_NAME: process.env.BLOG_NAME,
     BLOG_DESC: process.env.BLOG_DESC,
     metadata: post.metadata,
+    active: '',
     post: marked(post.content) // Use the marked library to parse the post's markdown format
   });
 });
@@ -100,10 +116,10 @@ app.get('/post/:postname', (req, res) => {
 // Category browse route/view
 app.get('/categories', (req, res) => {
   res.render('categories.njk', {
-    term: criteria.term,
+    active: 'categories',
+    categories: categories,
     BLOG_DESC: process.env.BLOG_DESC,
     BLOG_NAME: process.env.BLOG_NAME,
-    posts: results
   });
 });
 
@@ -111,6 +127,7 @@ app.get('/categories', (req, res) => {
 app.get('/categories/:shortname', (req, res) => {
   // Render output
   res.render('categories.njk', {
+    active: 'categories',
     term: criteria.term,
     BLOG_DESC: process.env.BLOG_DESC,
     BLOG_NAME: process.env.BLOG_NAME,
@@ -137,6 +154,7 @@ app.get('/search', (req, res) => {
   
   // Render output
   res.render('search.njk', {
+    active: '',
     term: criteria.term,
     BLOG_DESC: process.env.BLOG_DESC,
     BLOG_NAME: process.env.BLOG_NAME,
